@@ -9,6 +9,7 @@ import { AuthModule } from './api/auth/auth.module';
 import { NewsModule } from './api/news/news.module';
 import { UserModule } from './api/user/user.module';
 import { UserProfileModule } from './api/user-profile/user-profile.module';
+import { PhotoModule } from './api/photo/photo.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UserProfileModule } from './api/user-profile/user-profile.module';
     NewsModule,
     UserModule,
     UserProfileModule,
+    PhotoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
