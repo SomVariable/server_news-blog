@@ -2,13 +2,14 @@ import { JwtService, JwtSignOptions } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { AccessJwtConfig } from '../../config/jwt.config';
 import { jwtType } from './types/jwt-helper.types';
+import {User} from '@prisma/client'
 
 @Injectable()
 export class JwtHelperService {
   constructor(private readonly jwtService: JwtService) {}
-  //repl type any to user
+
   async generateToken(
-    { id, email, role }: any,
+    { id, email, role }: User,
     sessionKey: string,
     options?: JwtSignOptions,
   ): Promise<string> {
@@ -20,7 +21,7 @@ export class JwtHelperService {
 
   async getDataFromJwt(
     authorization: string,
-    option: JwtSignOptions = AccessJwtConfig,
+    option: JwtSignOptions = AccessJwtConfig(),
   ): Promise<jwtType> {
     const token = authorization?.replace('Bearer ', '');
     const dataFromToken = await this.jwtService.verify(token, option);

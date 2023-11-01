@@ -11,17 +11,30 @@ datasource db {
 }
 
 model User {
-  id    Int    @id @default(autoincrement())
-  email String
-  hash  String
-  login String
-
-  UserProfile UserProfile?
+  id          Int          @id @default(autoincrement())
+  email       String       @unique
+  hash        String
+  login       String
+  role        ROLE
+  accountStatus ACCOUNT_STATUS
+  UserProfile UserProfile[]
 }
 
 model UserProfile {
   id Int @id @default(autoincrement())
 
   user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int @unique
+  userId Int  @unique
+}
+
+enum ROLE {
+  ADMIN
+  USER
+  REPORTER
+}
+
+enum ACCOUNT_STATUS {
+  PENDING
+  ACTIVE
+  BLOCKED
 }

@@ -100,7 +100,7 @@ export class KvStoreService {
     const updateObject = JSON.stringify({ ...session, status: 'BLOCKED' });
     await this.cacheManager.set(id, updateObject);
 
-    const updatedSession = await JSON.parse(await this.cacheManager.get(id));
+    const updatedSession: Session = await JSON.parse(await this.cacheManager.get(id));
 
     if (updatedSession.status === 'BLOCKED') {
       const updatedSession: Session = await JSON.parse(

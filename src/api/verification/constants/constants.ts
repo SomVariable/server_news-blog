@@ -12,3 +12,8 @@ export enum VERIFICATION_BAD_REQUEST_ERRORS {
 export enum VERIFICATION_SERVER_ERRORS {
   FAILED = 'Failed to send email',
 }
+
+export const VERIFY_EXAMPLE = {
+  jwtToken: "jwtToken",
+  refreshToken: "refreshToken",
+}

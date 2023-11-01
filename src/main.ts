@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalFilters(new PrismaClientExceptionFilter(httpAdapter));
 
   const swaggerConfig = new DocumentBuilder()
-    .setTitle('im-legal')
+    .setTitle('news-blog')
     .addBearerAuth()
     .build();
 

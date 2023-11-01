@@ -22,7 +22,7 @@ import { SaveSessionDto } from './dto/save-session.dto';
 import { SetVerificationProps } from './kv-types/kv-store.type';
 import { UpdateVerifyDto } from './dto/update-verify-session.dto';
 import { DeviceType } from 'src/common/decorators/device-type.decorator';
-import { BaseInterceptor } from 'src/common/interceptors/data-to-json';
+import { DataToJsonInterceptor } from 'src/common/interceptors/data-to-json.interceptor';
 import { AccessJwtAuthGuard } from '../jwt-helper/guards/access-jwt.guard';
 import { KVStoreInterceptor } from './interceptors/kv-store.interceptor';
 import { KVStoreOkResponse } from './dto/ok-response/ok.dto';
@@ -36,7 +36,7 @@ import { ID_PARAM } from 'src/common/constants/app.constants';
 @ApiOkResponse({ type: KVStoreOkResponse })
 @ApiBadRequestResponse({ type: KVStoreBadRequestErrorResponse })
 @ApiNotFoundResponse({ type: KVStoreNotFoundErrorResponse })
-@UseInterceptors(BaseInterceptor, KVStoreInterceptor)
+@UseInterceptors(DataToJsonInterceptor, KVStoreInterceptor)
 @Controller('kv-store')
 export class KvStoreController {
   constructor(private readonly kvStoreService: KvStoreService) {}

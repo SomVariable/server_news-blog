@@ -3,7 +3,6 @@ import {
   BadRequestException,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { MailerService } from '@nestjs-modules/mailer';
 import { KvStoreService } from '../kv-store/kv-store.service';
 import {
   VERIFICATION_BAD_REQUEST_ERRORS,
@@ -15,17 +14,17 @@ import {
   Session,
   SetVerificationProps,
 } from '../kv-store/kv-types/kv-store.type';
-import { generateSendObject } from 'src/config/mailer.config';
+import { SignUpDto } from '../auth/dto/sign-up.dto';
+
 
 @Injectable()
 export class VerificationService {
   constructor(
-    private readonly mailerService: MailerService,
     private readonly kvStoreService: KvStoreService,
   ) {}
 
   async sendVerificationCode(
-    email: string,
+    userData: SignUpDto,
     sessionKey: string,
     verificationKey: string,
   ) {
@@ -36,13 +35,9 @@ export class VerificationService {
       };
 
       await this.kvStoreService.setVerificationProps(sessionKey, data);
-      const ans = await this.mailerService.sendMail(
-        generateSendObject(email, verificationKey),
-      );
-      const { accepted, rejected, messageId } = ans;
-      return { accepted, rejected, messageId };
+      
+      return data
     } catch (error) {
-      console.log(error);
       throw new InternalServerErrorException(VERIFICATION_SERVER_ERRORS.FAILED);
     }
   }
