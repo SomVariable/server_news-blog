@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   BadRequestException,
   NotFoundException,
+  Logger,
 } from '@nestjs/common';
 import { CreateSession, Session } from './kv-types/kv-store.type';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
@@ -14,9 +15,12 @@ import { UpdateSessionDto } from './dto/update-session.dto';
 
 @Injectable()
 export class KvStoreService {
-  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
+  private readonly logger = new Logger()
+  constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) { }
 
   async createSession({ id }: CreateSession): Promise<Session> {
+    this.logger.verbose(`KvStoreService. createSession. InputData. Id: ${id}`)
+
     try {
       const session: Session = {
         id,
@@ -28,9 +32,12 @@ export class KvStoreService {
       await this.cacheManager.set(id, JSON.stringify(session));
       const sessionJSON: string = await this.cacheManager.get(id);
       const newSession: Session = await JSON.parse(sessionJSON);
+
+      this.logger.verbose(`KvStoreService. createSession. OutputData. Id: ${JSON.stringify(newSession)}`)
+
       return newSession;
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('something wrong with session');
     }
   }
 
@@ -38,9 +45,11 @@ export class KvStoreService {
     id: string,
     data: UpdateVerifyDto,
   ): Promise<Session> {
+    this.logger.verbose(`KvStoreService. setVerificationProps. input data, id: ${id}, data: ${JSON.stringify(data)}`)
     try {
       const session: Session = await this.updateSession(id, data);
 
+      this.logger.verbose(`KvStoreService. setVerificationProps. Output .session: ${JSON.stringify(session)}`)
       return session;
     } catch (error) {
       throw new InternalServerErrorException();

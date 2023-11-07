@@ -4,12 +4,13 @@ import * as request from 'supertest';
 
 export const getSession = async (
   app: INestApplication,
-  userId: number,
+  jwtToken: string,
   session?: Partial<Session>,
 ) => {
   const responseKvStore = await request(app.getHttpServer())
-    .get(`/kv-store/session/${userId}`)
+    .get(`/kv-store/session`)
     .set('User-Agent', 'Mobile')
+    .set('Authorization', jwtToken)
     .expect(200);
   const responseKvStoreBody = await JSON.parse(responseKvStore.text);
 

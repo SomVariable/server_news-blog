@@ -4,10 +4,11 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { PrismaClientExceptionFilter } from 'nestjs-prisma';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import configuration from './config/configuration';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const config = new ConfigService();
+  const config = app.get(ConfigService);
   const { httpAdapter } = app.get(HttpAdapterHost);
 
   app.enableCors({ credentials: true, origin: true });
@@ -22,6 +23,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, swaggerConfig);
   SwaggerModule.setup('api', app, document);
 
-  await app.listen(config.get('PORT'));
+  await app.listen(config.get('port'));
 }
 bootstrap();

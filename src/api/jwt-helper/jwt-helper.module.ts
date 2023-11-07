@@ -5,9 +5,10 @@ import { AccessJwtStrategy } from './strategies/access-jwt.strategy';
 
 import { KvStoreModule } from '../kv-store/kv-store.module';
 import { RefreshJwtStrategy } from './strategies/refresh-jwt.strategy';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [JwtModule.register({ global: true }), KvStoreModule],
+  imports: [JwtModule.register({ global: true }), KvStoreModule, ConfigModule],
   controllers: [],
   providers: [JwtHelperService, AccessJwtStrategy, RefreshJwtStrategy],
   exports: [JwtHelperService],

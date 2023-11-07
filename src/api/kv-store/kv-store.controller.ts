@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import {
   Controller,
   Post,
@@ -39,7 +40,9 @@ import { ID_PARAM } from 'src/common/constants/app.constants';
 @UseInterceptors(DataToJsonInterceptor, KVStoreInterceptor)
 @Controller('kv-store')
 export class KvStoreController {
-  constructor(private readonly kvStoreService: KvStoreService) {}
+  constructor(
+    private readonly kvStoreService: KvStoreService,
+    private readonly configService: ConfigService) {}
 
   @Post('session')
   @ApiBearerAuth()
@@ -54,7 +57,12 @@ export class KvStoreController {
     return await this.kvStoreService.createSession({ id: session });
   }
 
-  @Get('session/')
+  @Get('test-test-test')
+  data() {
+    console.log(this.configService.get('store'))
+  }
+
+  @Get('session')
   async getSession(
     @UserParam() { id }: jwtType,
     @DeviceType() deviceType: string,
