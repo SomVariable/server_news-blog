@@ -30,6 +30,7 @@ export class AuthService {
 
         const user = await this.userService.create(dto)
         const sessionKey = this.kvStoreService.generateSessionKey(user.id, deviceType);
+        this.logger.verbose(`AuthService. signUp function. Input data is: ${sessionKey}`)
         await this.kvStoreService.createSession({ id: sessionKey });
         const verificationProps = await this.sendVerification(dto, sessionKey);
 

@@ -2,6 +2,8 @@ import { ROLE, ACCOUNT_STATUS } from '@prisma/client';
 import { SetVerificationProps } from 'src/api/kv-store/kv-types/kv-store.type';
 import { userReturnType } from "src/api/user/types/user.types"
 
+export const LOCAL = 'local'
+
 export enum AUTH_BAD_REQUEST_MESSAGE {
     WRONG_DATA = 'wrong data'
 }
