@@ -1,5 +1,5 @@
-import { ROLE, ACCOUNT_STATUS } from '@prisma/client';
-import { UserProfile } from 'src/api/user-profile/entities/user-profile.entity';
+import { ROLE, ACCOUNT_STATUS, UserProfile } from '@prisma/client';
+ 
 
 export type userReturnType = {
     id: number, 
@@ -9,4 +9,20 @@ export type userReturnType = {
 
 export type userReturnTypeWithProfile = userReturnType & {
     UserProfile: UserProfile[]
+}
+
+export type userOkDataType = {
+    user: userReturnType
+}
+
+export type userWithFullDataOkDataType = {
+    user: userReturnTypeWithProfile
+}
+
+export type usersOkDataType = {
+    users: userReturnType[]
+}
+
+export type usersWithFullDataOkDataType = {
+    user: userReturnTypeWithProfile[]
 }
