@@ -11,20 +11,40 @@ datasource db {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  email       String       @unique
-  hash        String
-  login       String
-  role        ROLE
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  hash          String
+  login         String
+  role          ROLE
   accountStatus ACCOUNT_STATUS
-  UserProfile UserProfile[]
+  UserProfile   UserProfile[]
 }
 
 model UserProfile {
+  id       Int      @default(autoincrement())
+  langCode LangCode
+
+  user       User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     Int    @unique
+  firstName  String
+  lastName  String
+  middleName String
+  avatar     Photo  @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  photoId    Int    @unique
+
+  @@id([langCode, userId])
+}
+
+model Photo {
   id Int @id @default(autoincrement())
 
-  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId Int  @unique
+  UserProfile UserProfile[]
+}
+
+enum LangCode {
+  RU
+  EN
+  UK
 }
 
 enum ROLE {
